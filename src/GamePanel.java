@@ -3,11 +3,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements ActionListener{
+public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	int count = 0;
 	final int MENU = 0;
 	final int GAME = 1;
@@ -17,6 +19,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	Font scaryFont = new Font("Dialog", Font.BOLD, 39);
 	Font descriptionFont = new Font("Impact", Font.ITALIC, 32);
 	Timer frameDraw;
+	Rocketship rocket = new Rocketship(250,700,50,50);
 	@Override
 	public void paintComponent(Graphics g){
 		if(currentState == MENU){
@@ -31,11 +34,12 @@ public class GamePanel extends JPanel implements ActionListener{
 	public GamePanel() {
 		frameDraw = new Timer(1000/60, this);
 		frameDraw.start();
+
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		count ++;
-		System.out.println("action " + count);
+		//System.out.println("action " + count);
 		repaint();
 		// TODO Auto-generated method stub
 		if(currentState == MENU){
@@ -76,7 +80,12 @@ public class GamePanel extends JPanel implements ActionListener{
 		
 	}
 	void drawGameState(Graphics g) {
-		
+		g.setFont(scaryFont);
+		g.setColor(Color.black);
+		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+		g.setColor(Color.white);
+		g.drawString("gameplay", 60, 200);
+		rocket.draw(g);
 	}
 	void drawEndState(Graphics g) {
 		g.setColor(new Color(120,12,23));
@@ -87,6 +96,59 @@ public class GamePanel extends JPanel implements ActionListener{
 		g.setFont(descriptionFont);
 		g.setColor(new Color(255,43,209));
 		g.drawString("Game Over", 43, 400);
+		g.drawString("press enter to restart", 43, 430);
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		//press enter to swap game state
+		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+		    if (currentState == END) {
+		        currentState = MENU;
+		    } else {
+		        currentState++;
+		    }
+		}
+		if (e.getKeyCode()==KeyEvent.VK_UP) {
+			if(rocket.movement>3) {
+				rocket.movement-=3;
+			}
+		}
+		if (e.getKeyCode()==KeyEvent.VK_DOWN) {
+			if(rocket.movement<7) {
+				rocket.movement+=3;
+			}	
+		}
+		if (e.getKeyCode()==KeyEvent.VK_LEFT) {
+			if(rocket.movement!=1&&rocket.movement!=4&&rocket.movement!=7) {
+				rocket.movement-=1;
+			}
+		}
+		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
+			if(rocket.movement!=3&&rocket.movement!=6&&rocket.movement!=9) {
+				rocket.movement+=1;
+			}
+		}
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getKeyCode()==KeyEvent.VK_UP) {
+			rocket.movement+=3;
+		}
+		if (e.getKeyCode()==KeyEvent.VK_DOWN) {
+			rocket.movement-=3;
+		}
+		if (e.getKeyCode()==KeyEvent.VK_LEFT) {
+			rocket.movement+=1;
+		}
+		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
+			rocket.movement-=1;
+		}
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

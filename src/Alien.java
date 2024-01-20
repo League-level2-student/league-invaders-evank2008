@@ -1,0 +1,18 @@
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Alien extends GameObject
+{
+
+	public Alien(int x, int y, int width, int height) {
+		super(x, y, width, height);
+		speed=1;
+	}
+void update() {
+	y+=speed;
+}
+void draw(Graphics g) {
+    g.setColor(new Color(20,20,20));
+    g.fillRect(x, y, width, height);
+}
+}
