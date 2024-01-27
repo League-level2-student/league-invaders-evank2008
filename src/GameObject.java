@@ -1,5 +1,11 @@
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
 
 public class GameObject {
+	public static BufferedImage image;
+	public static boolean needImage = true;
+	public static boolean gotImage = false;
 	 int x;
 	 int y;
 	 int width;
@@ -16,4 +22,5 @@ public class GameObject {
 	 void update() {
 		 
 	 }
+	
 }
