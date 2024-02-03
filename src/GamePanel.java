@@ -22,11 +22,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	Font descriptionFont = new Font("Impact", Font.ITALIC, 32);
 	Timer frameDraw;
 	Timer alienSpawn;
+	Timer shootDelay = new Timer(1000/2,this);
 	Rocketship rocket = new Rocketship(250,700,150,120);
 	ObjectManager man = new ObjectManager(rocket);
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	
+	boolean readyToFire = true;
 	@Override
 	public void paintComponent(Graphics g){
 		if(currentState == MENU){
@@ -47,6 +49,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		if(arg0.getSource()==shootDelay) {
+			readyToFire=true;
+			shootDelay.stop();
+		}
 		count ++;
 		//System.out.println("action " + count);
 		repaint();
@@ -147,6 +153,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 				rocket.movement+=1;
 			}
 		}
+		if (e.getKeyCode()==KeyEvent.VK_SPACE) { 
+			if(readyToFire) {
+			man.addProjectile(rocket.getProjectile());	
+			readyToFire = false;
+			shootDelay.start();
+			}
+			else {
+			//play a gun jammed sound? idk	
+			}
+			}
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -181,7 +197,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	    }
 	}
 	void startGame() {
-		alienSpawn = new Timer(1000, man);
+		alienSpawn = new Timer(1000*2, man);
 		alienSpawn.start();
 	}
 	

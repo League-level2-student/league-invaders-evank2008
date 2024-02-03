@@ -18,8 +18,12 @@ void update() {
 	y+=speed;
 }
 void draw(Graphics g) {
+	if (gotImage) {
+    	g.drawImage(image, x, y, width, height, null);
+	} else {
     g.setColor(new Color(20,20,20));
     g.fillRect(x, y, width, height);
+	}
 }
 void loadImage(String imageFile) {
     if (needImage) {

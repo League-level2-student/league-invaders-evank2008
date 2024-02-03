@@ -126,6 +126,6 @@ public class Rocketship extends GameObject {
 		    }
 		}
 	 public Projectile getProjectile() {
-	        return new Projectile(x+width/2, y, 20, 20);
+	        return new Projectile(x+width/2, y, 60, 60);
 	} 
 }
