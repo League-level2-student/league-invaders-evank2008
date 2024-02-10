@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 
 public class Rocketship extends GameObject { 
 	int movement = 5;
-		
+		boolean hasBeenHit = false;
 	public Rocketship(int x,int y,int width,int height) {
 		super(x, y, width, height);
 		speed=4;
@@ -128,4 +128,15 @@ public class Rocketship extends GameObject {
 	 public Projectile getProjectile() {
 	        return new Projectile(x+width/2, y, 60, 60);
 	} 
+	 public void hurt() {
+		 if(hasBeenHit==false) {
+			 hasBeenHit = true;
+		 }
+		 if(hasBeenHit = true) {
+			 lose();
+		 }
+	 }
+	 public void lose() {
+		 //add code
+	 }
 }

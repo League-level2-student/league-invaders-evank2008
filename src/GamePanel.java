@@ -1,3 +1,4 @@
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -8,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
+import javax.swing.JApplet;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -28,7 +30,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	
+	boolean firing = false;
 	boolean readyToFire = true;
+	boolean songPlaying = true;
+	AudioClip themesong = JApplet.newAudioClip(getClass().getResource("themesong.wav"));
 	@Override
 	public void paintComponent(Graphics g){
 		if(currentState == MENU){
@@ -38,7 +43,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		}else if(currentState == END){
 		    drawEndState(g);
 		}
-
+		
 	}
 	public GamePanel() {
 		frameDraw = new Timer(1000/60, this);
@@ -46,6 +51,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		if (needImage) {
 		    loadImage ("bg.png");
 		}
+		themesong.loop();
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -105,6 +111,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.setColor(Color.white);
 		g.drawString("gameplay", 60, 200);
 		man.draw(g);
+		if(firing) {
+			shoot();
+		}
 	}
 	void drawEndState(Graphics g) {
 		g.setColor(new Color(120,12,23));
@@ -154,15 +163,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 			}
 		}
 		if (e.getKeyCode()==KeyEvent.VK_SPACE) { 
-			if(readyToFire) {
-			man.addProjectile(rocket.getProjectile());	
-			readyToFire = false;
-			shootDelay.start();
+			firing=true;
 			}
-			else {
-			//play a gun jammed sound? idk	
+		if(e.getKeyCode()==KeyEvent.VK_M) {
+			if(songPlaying) {
+				themesong.stop();
+				songPlaying=false;
+			} else {
+				themesong.loop();
+				songPlaying=true;
 			}
-			}
+		}
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -178,6 +189,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		}
 		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
 			rocket.movement-=1;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+			firing=false;
 		}
 	}
 	@Override
@@ -199,6 +213,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	void startGame() {
 		alienSpawn = new Timer(1000*2, man);
 		alienSpawn.start();
+	}
+	void shoot() {
+		if(readyToFire) {
+			man.addProjectile(rocket.getProjectile());	
+			readyToFire = false;
+			shootDelay.start();
+			}
+			else {
+			//play a gun jammed sound? idk	
+			}
 	}
 	
 }

@@ -15,7 +15,7 @@ public static BufferedImage tomato;
 public static BufferedImage metalpipefalling;
 public static BufferedImage nokia;
 public static BufferedImage face;
-
+public boolean hasBowled = false;
 static {
 	bullet = loadImage("bullet.png");
 	tomato = loadImage("tomato.png");
@@ -38,21 +38,22 @@ static {
 				break;
 			case 2:
 				image = metalpipefalling;
-				playSound("metalpipefallingsoundeffect.mp3");
+				playSound("metalpipefallingsoundeffect.wav");
 				break;
 			case 3:
 				image = nokia;
-				playSound("nokia.mp3");
+				playSound("nokia.wav");
 				break;
 			case 4:
 				image = face;
-				playSound("skylarwhiteyo.mp3");
+				playSound("skylarwhiteyo.wav");
 				break;
 			}
 			
 	}
 	void update() {
 		y-=speed;
+		super.update();
 	}
 	void draw(Graphics g) {
 		
@@ -72,10 +73,7 @@ static {
 	       
 	    }
 	
-	void playSound(String soundFile) {
-		AudioClip sound = JApplet.newAudioClip(getClass().getResource(soundFile));
-		sound.play();
-	}
+	
 	
 }
 
