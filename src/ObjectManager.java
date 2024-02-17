@@ -37,6 +37,7 @@ void update() {
 			a.IsActive=false;
 		}
 	}
+	rocket.update();
 	checkCollision();
 	purgeObjects();
 }
@@ -72,29 +73,31 @@ public void actionPerformed(ActionEvent arg0) {
 	addAlien();
 }
 void checkCollision() {
-	for(Alien a:aliens) {
-		for(Projectile p:projectsList) {
-		if(a.collisionHull.intersects(p.collisionHull)) {
-			a.IsActive=false;
-			if(p.image==p.nokia) {
+	for(int i = aliens.size()-1;i>-1;i--) {
+		for(int e = projectsList.size()-1;i>-1;i--) {
+		if(aliens.get(i).collisionHull.intersects(projectsList.get(e).collisionHull)) {
+			aliens.get(i).IsActive=false;
+			if(projectsList.get(e).image==projectsList.get(e).nokia) {
 				//bowling time
-				if(p.hasBowled==false) {
+				if(projectsList.get(e).hasBowled==false) {
 					bowlsniper.play();
-					p.hasBowled = true;
+					projectsList.get(e).hasBowled = true;
 				} else {
 				bowl.play();
 				}
 			} else {
-				p.IsActive=false;
+				projectsList.get(e).IsActive=false;
 				
 				sound.play();
 			}
 		}
 			
 		}
-		if(a.collisionHull.intersects(rocket.collisionHull)) {
+		if(aliens.get(i).collisionHull.intersects(rocket.collisionHull)) {
+			aliens.get(i).IsActive=false;
+			//JApplet.newAudioClip(getClass().getResource("gethit.wav")).play();
 			rocket.hurt();
-			a.IsActive=false;
+			
 		}
 	}
 }

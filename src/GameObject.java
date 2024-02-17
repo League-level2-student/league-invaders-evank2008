@@ -1,4 +1,5 @@
 import java.applet.AudioClip;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
@@ -26,6 +27,7 @@ public class GameObject {
 	 
 	 void update() {
 		 collisionHull.setBounds(x, y, width, height); 
+		 
 	 }
 	 void playSound(String soundFile) {
 			AudioClip sound = JApplet.newAudioClip(getClass().getResource(soundFile));

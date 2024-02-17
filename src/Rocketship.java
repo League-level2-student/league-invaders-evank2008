@@ -1,18 +1,24 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 public class Rocketship extends GameObject { 
+	BufferedImage injuredEg;
 	int movement = 5;
+	GamePanel gpanel;
 		boolean hasBeenHit = false;
-	public Rocketship(int x,int y,int width,int height) {
+		
+	public Rocketship(int x,int y,int width,int height, GamePanel gpanel) {
 		super(x, y, width, height);
+		loadEggImages();
 		speed=4;
 		if (needImage) {
 		    loadImage ("le eg.png");
 		}
+		this.gpanel=gpanel;
 	}
 	
 	void draw(Graphics g) {
@@ -114,6 +120,14 @@ public class Rocketship extends GameObject {
 	public void down() {
         y+=speed;
     }
+	void loadEggImages() {
+		try {
+			injuredEg = ImageIO.read(this.getClass().getResourceAsStream("injured eg.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	 void loadImage(String imageFile) {
 		    if (needImage) {
 		        try {
@@ -129,14 +143,26 @@ public class Rocketship extends GameObject {
 	        return new Projectile(x+width/2, y, 60, 60);
 	} 
 	 public void hurt() {
+		 playSound("gethit.wav");
 		 if(hasBeenHit==false) {
 			 hasBeenHit = true;
+			 image = injuredEg;
+			 System.out.println("you should hear sound rn");
+			 
 		 }
-		 if(hasBeenHit = true) {
-			 lose();
+		 else {
+			lose(); 
 		 }
 	 }
-	 public void lose() {
-		 //add code
-	 }
+	 void lose() {
+			gpanel.themesong.stop();
+			gpanel.currentState=2;
+			gpanel.alienSpawn.stop();
+			gpanel.man.aliens.clear();
+			x=250;
+			y=700;
+			hasBeenHit=false;
+			playSound("lost.wav");
+		}
+	 
 }

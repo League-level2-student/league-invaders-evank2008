@@ -15,17 +15,17 @@ import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	int count = 0;
-	final int MENU = 0;
-	final int GAME = 1;
-	final int END = 2;
-	int currentState = MENU;
+	final static int MENU = 0;
+	static final int GAME = 1;
+	static final int END = 2;
+	static int currentState = MENU;
 	Font titleFont = new Font("Comic Sans MS", Font.PLAIN, 48);
 	Font scaryFont = new Font("Dialog", Font.BOLD, 39);
 	Font descriptionFont = new Font("Impact", Font.ITALIC, 32);
 	Timer frameDraw;
 	Timer alienSpawn;
 	Timer shootDelay = new Timer(1000/2,this);
-	Rocketship rocket = new Rocketship(250,700,150,120);
+	Rocketship rocket = new Rocketship(250,700,150,120, this);
 	ObjectManager man = new ObjectManager(rocket);
 	public static BufferedImage image;
 	public static boolean needImage = true;
@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	boolean firing = false;
 	boolean readyToFire = true;
 	boolean songPlaying = true;
-	AudioClip themesong = JApplet.newAudioClip(getClass().getResource("themesong.wav"));
+	static AudioClip themesong = JApplet.newAudioClip(GamePanel.class.getResource("themesong.wav"));
 	@Override
 	public void paintComponent(Graphics g){
 		if(currentState == MENU){
@@ -213,6 +213,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	void startGame() {
 		alienSpawn = new Timer(1000*2, man);
 		alienSpawn.start();
+		themesong.loop();
 	}
 	void shoot() {
 		if(readyToFire) {
@@ -224,5 +225,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 			//play a gun jammed sound? idk	
 			}
 	}
+	void playSound(String soundFile) {
+		AudioClip sound = JApplet.newAudioClip(getClass().getResource(soundFile));
+		sound.play();
+	}
+	 
 	
 }

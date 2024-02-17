@@ -27,6 +27,7 @@ static {
 	public Projectile(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		speed=5;
+		
 			switch(ran.nextInt(5)) {
 			case 0:
 				image = bullet;
