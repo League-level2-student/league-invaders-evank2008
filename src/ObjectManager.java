@@ -75,7 +75,9 @@ public void actionPerformed(ActionEvent arg0) {
 void checkCollision() {
 	for(int i = aliens.size()-1;i>-1;i--) {
 		for(int e = projectsList.size()-1;e>-1;e--) {
-		if(aliens.get(i).collisionHull.intersects(projectsList.get(e).collisionHull)) {
+		
+			try {
+			if(aliens.get(i).collisionHull.intersects(projectsList.get(e).collisionHull)) {
 			aliens.get(i).IsActive=false;
 			if(projectsList.get(e).image==projectsList.get(e).nokia) {
 				//bowling time
@@ -92,6 +94,10 @@ void checkCollision() {
 			}
 		}
 			
+		}
+		catch(Exception e1) {
+			e1.printStackTrace();
+		}
 		}
 		if(aliens.get(i).collisionHull.intersects(rocket.collisionHull)) {
 			aliens.get(i).IsActive=false;

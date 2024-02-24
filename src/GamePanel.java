@@ -131,6 +131,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		//press enter to swap game state
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 		    if (currentState == END) {
+		    	reset();
 		        currentState = MENU;
 		    } else {    
 		        if(currentState==MENU) {
@@ -213,7 +214,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	void startGame() {
 		alienSpawn = new Timer(1000*2, man);
 		alienSpawn.start();
-		themesong.loop();
+		
 	}
 	void shoot() {
 		if(readyToFire) {
@@ -228,6 +229,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	void playSound(String soundFile) {
 		AudioClip sound = JApplet.newAudioClip(getClass().getResource(soundFile));
 		sound.play();
+	}
+	void reset() {
+		for(Alien a:man.aliens) {
+			a.IsActive=false;
+		}
+		for(Projectile p:man.projectsList) {
+			p.IsActive=false;
+		}
+		rocket.image=rocket.leEg;
+		themesong.loop();
 	}
 	 
 	

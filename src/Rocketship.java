@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 public class Rocketship extends GameObject { 
 	BufferedImage injuredEg;
+	BufferedImage leEg;
 	int movement = 5;
 	GamePanel gpanel;
 		boolean hasBeenHit = false;
@@ -123,6 +124,7 @@ public class Rocketship extends GameObject {
 	void loadEggImages() {
 		try {
 			injuredEg = ImageIO.read(this.getClass().getResourceAsStream("injured eg.png"));
+			leEg = ImageIO.read(this.getClass().getResourceAsStream("le eg.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
